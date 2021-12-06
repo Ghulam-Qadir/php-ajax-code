@@ -1,4 +1,5 @@
 jQuery(document).ready(function() {
+  var alldata = []
 // read record to MySql from PHP using jQuery AJAX 
 function loadtable() {
   $.ajax({
@@ -6,6 +7,8 @@ function loadtable() {
     type: 'GET',
     dataType: "json",
     success: function(data){
+      alldata = data;
+      $('#ajaxdatadisplay').html("");
       $.each(data, function(key, item) {
        $('#ajaxdatadisplay').append(`<tr>
         <td>`+item.id+`</td>
@@ -49,22 +52,32 @@ loadtable();
           });
 // edit record to MySql from PHP using jQuery AJAX 
 $(document).on("click",".edit",function(e){
-  var id1 = $(this).val();
-  $.ajax({
+  
+var id1 = $(this).val();
+var item = alldata.find(item => item.id == id1);
+console.log(item , "item");
+ $("#update_name").val(item.name);
+ $("#update_email").val(item.email);
+ $("#update_address").val(item.address);
+ $("#update_phone").val(item.phone);
+ $('#citynamesupdateselect').append(`<option 
+  value="${item.cname}">${item.cname}</option>`
+  );
+  
+/*  $.ajax({
     url: 'ajax-edit.php',
     type: 'GET',
-    dataType: "json",
+    dataType: 'json',
+    // contentType: "application/json; charset=utf-8",
     data:{editId: id1},
     success: function(data){
-     console.log(data);
-     // var obj = JSON.parse(data);
 
-     // console.log( obj.name , "nme");
+      $("#update_name").val(data.name);
     },
     error:function(e) {
       console.log(e);
     }
-  });
+  });*/
 });
 // update record to MySql from PHP using jQuery AJAX 
 $(document).on("click","#updatebutton",function(e){
@@ -99,7 +112,7 @@ $(document).on("click","#updatebutton",function(e){
     console.log(id1);
     $.ajax({
       url :"ajax-delete.php",
-      type:"POST",
+      type:"GET",
       cache:false,
       data:{deleteId: id1},
       success:function(data){
