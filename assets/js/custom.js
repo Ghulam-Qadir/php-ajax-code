@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-  var alldata = []
+var alldata = []
 // read record to MySql from PHP using jQuery AJAX 
 function loadtable() {
   $.ajax({
@@ -55,14 +55,16 @@ $(document).on("click",".edit",function(e){
   
 var id1 = $(this).val();
 var item = alldata.find(item => item.id == id1);
-console.log(item , "item");
+// console.log(item , "item");
+ $("#updateidu").val(item.id);
  $("#update_name").val(item.name);
  $("#update_email").val(item.email);
  $("#update_address").val(item.address);
  $("#update_phone").val(item.phone);
- $('#citynamesupdateselect').append(`<option 
+ $('#citynamesupdateselect option[value="'+item.city_name+'"]').attr("selected", "selected");
+ /*$('#citynamesupdateselect').append(`<option 
   value="${item.cname}">${item.cname}</option>`
-  );
+  );*/
   
 /*  $.ajax({
     url: 'ajax-edit.php',
@@ -84,19 +86,19 @@ $(document).on("click","#updatebutton",function(e){
  e.preventDefault();
 
  var idupdate         = $("#updateidu").val();
- var nameupdate       = $("#nameu").val();
- var emailupdate      = $("#emailu").val();
- var addressupdate    = $("#addressu").val();
- var citynamesupdate  = $("#citynamesupdate").val();
- var phoneupdate      = $("#phoneu").val();
-
+ var nameupdate       = $("#update_name").val();
+ var emailupdate      = $("#update_email").val();
+ var addressupdate    = $("#update_address").val();
+ var citynamesupdate  = $("#citynamesupdateselect").val();
+ var phoneupdate      = $("#update_phone").val();
  $.ajax({
   url: 'ajax-update.php',
   type: 'POST',
   cache:false, 
   data: {id:idupdate ,name:nameupdate, email:emailupdate, address:addressupdate, city:citynamesupdate, phone:phoneupdate},
   success: function (data) {
-    if (data == 1) {
+
+  if (data == 1) {
       loadtable();
     }else{
       alert("Data not insert");
@@ -109,7 +111,6 @@ $(document).on("click","#updatebutton",function(e){
   if (confirm("Are you sure delete this ?")) {
     var id1 = $(this).val();
     var e = this;
-    console.log(id1);
     $.ajax({
       url :"ajax-delete.php",
       type:"GET",

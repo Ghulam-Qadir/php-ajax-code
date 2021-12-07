@@ -143,6 +143,9 @@ include 'header.php';
 							</select>
 						</div>
 						<div class="form-group">
+							<input type="hidden" id="updateidu" value="">
+						</div>
+						<div class="form-group">
 							<label>Phone</label>
 							<input type="text" class="form-control" id="update_phone" required>
 						</div>
