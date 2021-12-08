@@ -1,7 +1,7 @@
 jQuery(document).ready(function() {
 function datashow(alldata){
-     var alldata = JSON.stringify(alldata, null , ' ');
-      console.log(alldata);
+     //var alldata = JSON.stringify(alldata, null , ' ');
+      console.table(alldata);
 }
 var alldata = []
 // read record to MySql from PHP using jQuery AJAX 
@@ -11,7 +11,8 @@ function loadtable() {
     type: 'GET',
     dataType: "json",
     success: function(data){
-      alldata = data;
+      datashow(data);
+      //alldata = data;
       $('#ajaxdatadisplay').html("");
       $.each(data, function(key, item) {
        $('#ajaxdatadisplay').append(`<tr>
