@@ -1,4 +1,8 @@
 jQuery(document).ready(function() {
+function datashow(alldata){
+     var alldata = JSON.stringify(alldata, null , ' ');
+      console.log(alldata);
+}
 var alldata = []
 // read record to MySql from PHP using jQuery AJAX 
 function loadtable() {
@@ -56,30 +60,28 @@ $(document).on("click",".edit",function(e){
 var id1 = $(this).val();
 var item = alldata.find(item => item.id == id1);
 // console.log(item , "item");
- $("#updateidu").val(item.id);
+/* $("#updateidu").val(item.id);
  $("#update_name").val(item.name);
  $("#update_email").val(item.email);
  $("#update_address").val(item.address);
  $("#update_phone").val(item.phone);
- $('#citynamesupdateselect option[value="'+item.city_name+'"]').attr("selected", "selected");
+ $('#citynamesupdateselect option[value="'+item.city_name+'"]').attr("selected", "selected");*/
  /*$('#citynamesupdateselect').append(`<option 
   value="${item.cname}">${item.cname}</option>`
   );*/
   
-/*  $.ajax({
+  $.ajax({
     url: 'ajax-edit.php',
     type: 'GET',
     dataType: 'json',
     // contentType: "application/json; charset=utf-8",
     data:{editId: id1},
     success: function(data){
-
-      $("#update_name").val(data.name);
     },
     error:function(e) {
       console.log(e);
     }
-  });*/
+  });
 });
 // update record to MySql from PHP using jQuery AJAX 
 $(document).on("click","#updatebutton",function(e){
