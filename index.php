@@ -3,7 +3,6 @@ include 'header.php';
 ?>
 <body>
 	<div class="container-xl">
-
 		<div class="table-responsive">
 			<div class="table-wrapper">
 				<div class="table-title">
@@ -29,6 +28,7 @@ include 'header.php';
 									<label for="selectAll"></label>
 								</span>
 							</th>
+							<th>Image</th>
 							<th>Name</th>
 							<th>Email</th>
 							<th>Address</th>
@@ -57,11 +57,12 @@ include 'header.php';
 			</div>
 		</div>
 	</div>
+	<div id="result"></div>
 	<!-- Edit Modal HTML -->
 	<div id="addEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-
+			<form id="formidforalldata" action="/ajax-insert.php" enctype="multipart/form-data" method="POST">
 				<div class="modal-header">
 					<h4 class="modal-title">Add Employee</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -69,42 +70,52 @@ include 'header.php';
 				<div class="modal-body">
 					<div class="form-group">
 						<label>Name</label>
-						<input type="text" id="name" class="form-control" required>
+						<input type="text" name="name" id="name" class="form-control" required>
 					</div>
 					<div class="form-group">
 						<label>Email</label>
-						<input type="email" id="email" class="form-control" required>
+						<input type="email" name="email" id="email" class="form-control" required>
 					</div>
 					<div class="form-group">
 						<label>Address</label>
-						<textarea class="form-control" id="address" required></textarea>
+						<textarea class="form-control" name="address" id="address" required></textarea>
 					</div>
 					<div class="form-group">
 						<label>City</label>
-						<select id="citynames" >
-							<?php
+						<select id="citynames" name="citynames">
+				<?php
+						$allcities	= new DataBase;
 							$sql = "SELECT * FROM city";
-							$result = mysqli_query($conn, $sql) or die("query Unseccsussful");
-							if ($result->num_rows > 0) {
-								while ($row = $result->fetch_assoc()) {
-									$cityvalue = $row["cid"];
-									$cityname = $row["cname"];
-									echo '<option value="' . $cityvalue . '">' . $cityname . '</option>';
-								}}?>
+							$result = $allcities->connection()->query($sql);
+							$result->execute();
+							$output = $result->fetchAll();
+							foreach ($output as $key => $value) {
+							$cityvalue = $value["cid"];
+							$cityname = $value["cname"];
+							echo '<option value="' . $cityvalue . '">' . $cityname . '</option>';
+							}
+				?>
 							</select>
 						</div>
 						<div class="form-group">
 							<label>Phone</label>
-							<input type="text" class="form-control" id="phone" required>
+							<input type="text" class="form-control" name="phone" id="phone" required>
 						</div>
+					<!-- <div class="form-group">
+							<label>image</label>
+							<input type="file" class="form-control" name="image" id="image" required>
+						</div> -->
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" name="addnew" id="savebutton" class="btn btn-success" data-dismiss="modal" value="Add">
+					<input type="submit" class="btn btn-success" value="Add">
 					</div>
+					</form>
 				</div>
 			</div>
 		</div>
+
+
 		<!-- Edit Modal HTML -->
 		<div id="editEmployeeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 			<div class='modal-dialog'>
@@ -131,12 +142,16 @@ include 'header.php';
 						<label>City</label>
 						<select id="citynamesupdateselect" >
 							<?php
+						$allcities	= new DataBase;
 							$sql = "SELECT * FROM city";
-							$result = mysqli_query($conn, $sql) or die("query Unseccsussful");
-							if ($result->num_rows > 0) {
-								while ($row = $result->fetch_assoc()) {
-									$cityvalue = $row["cid"];
-									$cityname = $row["cname"];
+							$result = $allcities->connection()->query($sql);
+							$result->execute();
+							$output = $result->fetchAll();
+							print_r($output);
+							if ($output > 0) {
+								while ($row = $result->fetchAll()) {
+									$cityvalue = $row->cid;
+									$cityname = $row->cname;
 									echo '<option value="' . $cityvalue . '">' . $cityname . '</option>';
 								}}
 								?>
@@ -159,5 +174,6 @@ include 'header.php';
 			</div>
 
 		</div>
+		<div id="allposts"></div>
 	</body>
 	</html>

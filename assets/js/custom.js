@@ -11,12 +11,13 @@ function loadtable() {
     type: 'GET',
     dataType: "json",
     success: function(data){
-      datashow(data);
+      //datashow(data);
       //alldata = data;
       $('#ajaxdatadisplay').html("");
       $.each(data, function(key, item) {
        $('#ajaxdatadisplay').append(`<tr>
         <td>`+item.id+`</td>
+        <td><img src=""></td>
         <td>`+item.name+`</td>
         <td>`+item.email+`</td>
         <td>`+item.address+`</td>
@@ -30,7 +31,7 @@ function loadtable() {
 };
 loadtable();
           // add record to MySql from PHP using jQuery AJAX 
-          jQuery("#savebutton").on('click', function(e) {
+/*          jQuery("#savebutton").on('click', function(e) {
             e.preventDefault();
 
             var namee = $("#name").val();
@@ -42,7 +43,9 @@ loadtable();
             $.ajax({
               url: 'ajax-insert.php',
               type: 'POST',
-              cache:false, 
+              cache:false,
+              contentType: false,
+              processData: false,
               data: {name1: namee, email1: emaill, address1: addresss, citynames1: citynamess, phone1: phonee},
               success: function (data) {
                 if (data == '1') {
@@ -54,7 +57,51 @@ loadtable();
                 
               }
             })
-          });
+          });*/
+
+
+  /*$("#formidforalldata").submit(function(e){
+  e.preventDefault();
+    var action = $(this).attr('action');
+    var method = $(this).attr('method');
+    var form = $(this).serialize();
+    console.log(form);
+           $.ajax({
+              url: action,
+              type: method,
+              cache:false,
+              contentType: false,
+              processData: false,
+              data: form,
+              success: function (response) {
+                console.log(response);
+              }
+            })
+  $("#addEmployeeModal").modal('hide');
+});*/
+
+    $("#formidforalldata").on("submit", function(event){
+       event.preventDefault();
+        let insertformdata = new FormData(this);
+        let url = $(this).attr("action");
+        let type =$(this).attr("method");
+    $.ajax({
+        url: url,
+        type: type,            
+        data: insertformdata,
+        processData: false,
+        contentType: false,
+        success: function (data)
+        {
+            console.log(data.status);
+        }
+    });
+          
+    });
+
+
+
+
 // edit record to MySql from PHP using jQuery AJAX 
 $(document).on("click",".edit",function(e){
   
@@ -78,6 +125,7 @@ var item = alldata.find(item => item.id == id1);
     // contentType: "application/json; charset=utf-8",
     data:{editId: id1},
     success: function(data){
+      datashow(data);
     },
     error:function(e) {
       console.log(e);
