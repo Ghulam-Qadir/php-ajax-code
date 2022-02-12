@@ -1,8 +1,8 @@
 jQuery(document).ready(function() {
-function datashow(alldata){
+/*function datashow(alldata){
      //var alldata = JSON.stringify(alldata, null , ' ');
       console.table(alldata);
-}
+}*/
 var alldata = []
 // read record to MySql from PHP using jQuery AJAX 
 function loadtable() {
@@ -12,7 +12,7 @@ function loadtable() {
     dataType: "json",
     success: function(data){
       //datashow(data);
-      //alldata = data;
+      alldata = data;
       $('#ajaxdatadisplay').html("");
       $.each(data, function(key, item) {
        $('#ajaxdatadisplay').append(`<tr>
@@ -93,7 +93,7 @@ loadtable();
         contentType: false,
         success: function (data)
         {
-            console.log(data.status);
+          console.log(data);
         }
     });
           
@@ -104,21 +104,20 @@ loadtable();
 
 // edit record to MySql from PHP using jQuery AJAX 
 $(document).on("click",".edit",function(e){
-  
 var id1 = $(this).val();
 var item = alldata.find(item => item.id == id1);
-// console.log(item , "item");
-/* $("#updateidu").val(item.id);
+console.log(item , "item");
+ $("#updateidu").val(item.id);
  $("#update_name").val(item.name);
  $("#update_email").val(item.email);
  $("#update_address").val(item.address);
  $("#update_phone").val(item.phone);
- $('#citynamesupdateselect option[value="'+item.city_name+'"]').attr("selected", "selected");*/
- /*$('#citynamesupdateselect').append(`<option 
+ $('#citynamesupdateselect option[value="'+item.city_name+'"]').attr("selected", "selected");
+ $('#citynamesupdateselect').append(`<option 
   value="${item.cname}">${item.cname}</option>`
-  );*/
+  );
   
-  $.ajax({
+/*  $.ajax({
     url: 'ajax-edit.php',
     type: 'GET',
     dataType: 'json',
@@ -130,7 +129,7 @@ var item = alldata.find(item => item.id == id1);
     error:function(e) {
       console.log(e);
     }
-  });
+  });*/
 });
 // update record to MySql from PHP using jQuery AJAX 
 $(document).on("click","#updatebutton",function(e){
@@ -179,7 +178,7 @@ $(document).on("click","#updatebutton",function(e){
     }
   }
 });
-  }
+}
 });
 
  $("#myInput").on("keyup", function() {

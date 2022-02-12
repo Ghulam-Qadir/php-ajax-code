@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
  $sql = "INSERT INTO `employees` (`id`, `name`, `email`, `address`, `phone`,`city_name`) 
  		 VALUES (NULL, :name, :email, :address,:phone, :citynames)";
- $statement = $alldatainsert->connection()->prepare($sql);;
+ $statement = $alldatainsert->connection()->prepare($sql);
  $exec = $statement->execute(
    	array(
    	":name"=>$Name ,
