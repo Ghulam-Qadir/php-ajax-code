@@ -120,7 +120,7 @@ include 'header.php';
 		<div id="editEmployeeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 			<div class='modal-dialog'>
 				<div class='modal-content'>
-					<form id="editEmployeeModaldata">
+					<form id="updateEmployeeModaldata" action="/ajax-update.php" enctype="multipart/form-data" method="POST">
 					<div class="modal-header">
 					<h4 class="modal-title">Add Employee</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -128,46 +128,44 @@ include 'header.php';
 				<div class="modal-body">
 					<div class="form-group">
 						<label>Name</label>
-						<input type="text" id="update_name" class="form-control" required>
+						<input type="text" id="update_name" name="update_name" class="form-control" required>
 					</div>
 					<div class="form-group">
 						<label>Email</label>
-						<input type="email" id="update_email" class="form-control" required>
+						<input type="email" id="update_email" name="update_email" class="form-control" required>
 					</div>
 					<div class="form-group">
 						<label>Address</label>
-						<textarea class="form-control" id="update_address" required></textarea>
+						<textarea class="form-control" id="update_address" name="update_address" required></textarea>
 					</div>
 					<div class="form-group">
 						<label>City</label>
-						<select id="citynamesupdateselect" >
+						<select id="citynamesupdateselect" name="citynamesupdateselect">
 							<?php
 						$allcities	= new DataBase;
 							$sql = "SELECT * FROM city";
 							$result = $allcities->connection()->query($sql);
 							$result->execute();
 							$output = $result->fetchAll();
-							print_r($output);
-							if ($output > 0) {
-								while ($row = $result->fetchAll()) {
-									$cityvalue = $row->cid;
-									$cityname = $row->cname;
-									echo '<option value="' . $cityvalue . '">' . $cityname . '</option>';
-								}}
-								?>
+							foreach ($output as $key => $value) {
+							$cityvalue = $value["cid"];
+							$cityname = $value["cname"];
+							echo '<option value="' . $cityvalue . '">' . $cityname . '</option>';
+							}
+				?>
 							</select>
 						</div>
 						<div class="form-group">
-							<input type="hidden" id="updateidu" value="">
+							<input type="hidden" id="updateidu" value="" name="updateidu">
 						</div>
 						<div class="form-group">
 							<label>Phone</label>
-							<input type="text" class="form-control" id="update_phone" required>
+							<input type="text" class="form-control" id="update_phone" name="update_phone" required>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" name="addnew" id="updatebutton" class="btn btn-success" data-dismiss="modal" value="Update">
+						<input type="submit" name="addnew" id="updatebutton" class="btn btn-success">
 					</div>
 					</form>
 				</div>

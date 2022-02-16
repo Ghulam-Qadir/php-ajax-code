@@ -2,8 +2,8 @@ jQuery(document).ready(function() {
 /*function datashow(alldata){
      //var alldata = JSON.stringify(alldata, null , ' ');
       console.table(alldata);
-}*/
-var alldata = []
+    }*/
+    var alldata = []
 // read record to MySql from PHP using jQuery AJAX 
 function loadtable() {
   $.ajax({
@@ -80,43 +80,45 @@ loadtable();
   $("#addEmployeeModal").modal('hide');
 });*/
 
-    $("#formidforalldata").on("submit", function(event){
-       event.preventDefault();
-        let insertformdata = new FormData(this);
-        let url = $(this).attr("action");
-        let type =$(this).attr("method");
-    $.ajax({
-        url: url,
-        type: type,            
-        data: insertformdata,
-        processData: false,
-        contentType: false,
-        success: function (data)
-        {
-          console.log(data);
-        }
-    });
-          
-    });
+$("#formidforalldata").on("submit", function(event){
+ event.preventDefault();
+ let insertformdata = new FormData(this);
+ let url = $(this).attr("action");
+ let type =$(this).attr("method");
+ $.ajax({
+  url: url,
+  type: type,            
+  data: insertformdata,
+  processData: false,
+  contentType: false,
+  success: function (data)
+  {
+    var obj = jQuery.parseJSON(data);
+    if(obj.status == 200){
+      $("#addEmployeeModal").modal("hide")
+      loadtable();
+    }
+  }
+});
+
+});
 
 
 
 
 // edit record to MySql from PHP using jQuery AJAX 
 $(document).on("click",".edit",function(e){
-var id1 = $(this).val();
-var item = alldata.find(item => item.id == id1);
-console.log(item , "item");
- $("#updateidu").val(item.id);
- $("#update_name").val(item.name);
- $("#update_email").val(item.email);
- $("#update_address").val(item.address);
- $("#update_phone").val(item.phone);
- $('#citynamesupdateselect option[value="'+item.city_name+'"]').attr("selected", "selected");
- $('#citynamesupdateselect').append(`<option 
-  value="${item.cname}">${item.cname}</option>`
-  );
-  
+  loadtable();
+  var id1 = $(this).val();
+  var item = alldata.find(item => item.id == id1);
+  console.log(item);
+  $("#updateidu").val(item.id);
+  $("#update_name").val(item.name);
+  $("#update_email").val(item.email);
+  $("#update_address").val(item.address);
+  $("#update_phone").val(item.phone);
+  $('#citynamesupdateselect option[value="'+item.cid+'"]').attr("selected", "selected");
+  /*$('#citynamesupdateselect').append(`<option value="${item.cname}">${item.cname}</option>`);*/
 /*  $.ajax({
     url: 'ajax-edit.php',
     type: 'GET',
@@ -132,27 +134,23 @@ console.log(item , "item");
   });*/
 });
 // update record to MySql from PHP using jQuery AJAX 
-$(document).on("click","#updatebutton",function(e){
- e.preventDefault();
-
- var idupdate         = $("#updateidu").val();
- var nameupdate       = $("#update_name").val();
- var emailupdate      = $("#update_email").val();
- var addressupdate    = $("#update_address").val();
- var citynamesupdate  = $("#citynamesupdateselect").val();
- var phoneupdate      = $("#update_phone").val();
+$("#updateEmployeeModaldata").on("submit", function(event){
+ event.preventDefault();
+ let updateformdata = new FormData(this);
+ let url = $(this).attr("action");
+ let type =$(this).attr("method");
  $.ajax({
-  url: 'ajax-update.php',
-  type: 'POST',
-  cache:false, 
-  data: {id:idupdate ,name:nameupdate, email:emailupdate, address:addressupdate, city:citynamesupdate, phone:phoneupdate},
+  url: url,
+  type: type,
+  data: updateformdata,
+  processData: false,
+  contentType: false,
   success: function (data) {
-
-  if (data == 1) {
+    var objupdate = jQuery.parseJSON(data);
+    if(objupdate.status == 200){
+    $("#editEmployeeModal").modal("hide")
       loadtable();
-    }else{
-      alert("Data not insert");
-    } 
+    }
   }
 })
 });
@@ -178,7 +176,7 @@ $(document).on("click","#updatebutton",function(e){
     }
   }
 });
-}
+  }
 });
 
  $("#myInput").on("keyup", function() {
