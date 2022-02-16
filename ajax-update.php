@@ -11,31 +11,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$Phone    		= $_POST['update_phone'];
 }
 
-$sql = "UPDATE `employees` 
-				SET `name` = :name, 
-					`email` = :email, 
-					`address` = :address, 
-					`phone` = :phone, 
-					`city_name` = :city_name 
-			  WHERE `employees`.`id` = :employeesid";
+$sql = "UPDATE `employees` 	SET `name` = :name, 
+`email` = :email, 
+`address` = :address, 
+`phone` = :phone, 
+`city_name` = :city_name WHERE `employees`.`id` = :employeesid";
 
  $statement = $formdataupde->connection()->prepare($sql);
+
  $statement->bindValue(':employeesid', $updateId, PDO::PARAM_STR);
  $statement->bindValue(':name', $Name, PDO::PARAM_STR);
  $statement->bindValue(':email', $Email, PDO::PARAM_STR);
  $statement->bindValue(':address', $Address, PDO::PARAM_STR);
  $statement->bindValue(':phone', $Phone, PDO::PARAM_STR);
  $statement->bindValue(':city_name', $Cityname, PDO::PARAM_STR);
-/* $exec = $statement->execute(
-   	array(
-   			":employeesid" =>$updateId,
-			":name" => $Name,
-			":email" => $Email,
-			":address" => $Address,
-			":phone" => $Phone,
-			":city_name" => $Cityname
-   	));*/
-  $exec = $statement->execute();
+
+ $exec = $statement->execute();
+
    if($exec){
     $output = [
     	"status"=>"200",
