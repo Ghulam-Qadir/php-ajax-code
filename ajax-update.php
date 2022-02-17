@@ -9,13 +9,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$Address  		= $_POST['update_address'];
 	$Cityname 		= $_POST['citynamesupdateselect'];
 	$Phone    		= $_POST['update_phone'];
+  $Image    = $_FILES['Update_image'];
+  $fileName = $Image['name'];
+  $fileSize = $Image['size'];
+  $fileTemp = $Image['tmp_name'];
+  move_uploaded_file($fileTemp, "upload/". $fileName);
 }
 
 $sql = "UPDATE `employees` 	SET `name` = :name, 
 `email` = :email, 
 `address` = :address, 
 `phone` = :phone, 
-`city_name` = :city_name WHERE `employees`.`id` = :employeesid";
+`city_name` = :city_name,
+ `image` = :image WHERE `employees`.`id` = :employeesid";
 
  $statement = $formdataupde->connection()->prepare($sql);
 
@@ -25,6 +31,7 @@ $sql = "UPDATE `employees` 	SET `name` = :name,
  $statement->bindValue(':address', $Address, PDO::PARAM_STR);
  $statement->bindValue(':phone', $Phone, PDO::PARAM_STR);
  $statement->bindValue(':city_name', $Cityname, PDO::PARAM_STR);
+ $statement->bindValue(':image', $fileName, PDO::PARAM_STR);
 
  $exec = $statement->execute();
 

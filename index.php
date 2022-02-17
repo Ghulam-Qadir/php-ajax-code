@@ -101,10 +101,10 @@ include 'header.php';
 							<label>Phone</label>
 							<input type="text" class="form-control" name="phone" id="phone" required>
 						</div>
-					<!-- <div class="form-group">
+					<div class="form-group">
 							<label>image</label>
 							<input type="file" class="form-control" name="image" id="image" required>
-						</div> -->
+						</div>
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -155,6 +155,11 @@ include 'header.php';
 				?>
 							</select>
 						</div>
+						<div class="form-group">
+							<label>image</label><img src="" id="Update_image_view" style="width: 50px;">
+							<input type="file" class="form-control" name="Update_image" id="image" required>
+						</div>
+
 						<div class="form-group">
 							<input type="hidden" id="updateidu" value="" name="updateidu">
 						</div>

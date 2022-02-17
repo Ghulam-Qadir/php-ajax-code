@@ -7,17 +7,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$Address  = $_POST['address'];
 	$Cityname = $_POST['citynames'];
 	$Phone    = $_POST['phone'];
+  $Image    = $_FILES['image'];
+  $fileName = $Image['name'];
+  $fileSize = $Image['size'];
+  $fileTemp = $Image['tmp_name'];
+  move_uploaded_file($fileTemp, "upload/". $fileName);
 }
- $sql = "INSERT INTO `employees` (`id`, `name`, `email`, `address`, `phone`,`city_name`) 
- 		 VALUES (NULL, :name, :email, :address,:phone, :citynames)";
+ $sql = "INSERT INTO `employees` (`id`, `name`, `email`, `address`, `phone`,`city_name`,`image`) 
+ 		 VALUES (NULL, :name, :email, :address,:phone, :citynames, :image)";
  $statement = $alldatainsert->connection()->prepare($sql);
  $exec = $statement->execute(
    	array(
-   	":name"=>$Name ,
-   	":email"=>$Email,
-   	":address"=>$Address,
-   	":phone"=>$Phone,
-   	":citynames"=>$Cityname
+   	":name"=> $Name,
+   	":email"=> $Email,
+   	":address"=> $Address,
+   	":phone"=> $Phone,
+   	":citynames"=> $Cityname,
+    ":image"=> $fileName
    ));
 
    if($exec){

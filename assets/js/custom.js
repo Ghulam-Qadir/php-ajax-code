@@ -17,7 +17,7 @@ function loadtable() {
       $.each(data, function(key, item) {
        $('#ajaxdatadisplay').append(`<tr>
         <td>`+item.id+`</td>
-        <td><img src=""></td>
+        <td><img src="upload/`+item.image+`" style="width:100px;"></td>
         <td>`+item.name+`</td>
         <td>`+item.email+`</td>
         <td>`+item.address+`</td>
@@ -117,6 +117,7 @@ $(document).on("click",".edit",function(e){
   $("#update_email").val(item.email);
   $("#update_address").val(item.address);
   $("#update_phone").val(item.phone);
+  $("#Update_image_view").attr('src', 'upload/'+ item.image);
   $('#citynamesupdateselect option[value="'+item.cid+'"]').attr("selected", "selected");
   /*$('#citynamesupdateselect').append(`<option value="${item.cname}">${item.cname}</option>`);*/
 /*  $.ajax({
